@@ -3,8 +3,6 @@ package com.alexis.shopcenter.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-
 import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -46,4 +44,6 @@ public class Product {
     // Cascade = toutes opérations effectués sur l'entité Product sera affecté sur les entités associées
     // OrphanRemoval = Supression auto des entités orphelines dans une relation parent enfant. Supprime automatiquement une entité enfant. Cela veut dire que si on supprime la collection Product, l'image sera aussi supprimé de sa bdd 
     // Association d'objet avec image
+
+
 }
