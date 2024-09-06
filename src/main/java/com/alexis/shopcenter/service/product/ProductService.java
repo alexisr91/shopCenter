@@ -1,22 +1,53 @@
 package com.alexis.shopcenter.service.product;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.alexis.shopcenter.exceptions.ProductNotFoundException;
+import com.alexis.shopcenter.model.Category;
 import com.alexis.shopcenter.model.Product;
+import com.alexis.shopcenter.repository.CategoryRepository;
+import com.alexis.shopcenter.request.AddProductRequest;
+
 import lombok.RequiredArgsConstructor;
 
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor // Pour injecter une dépendance, il faut que la variable soit de type final
 public class ProductService implements IProductService{
     
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public Product addProduct(Product product){
-        return null;
+    public Product addProduct(AddProductRequest request){
+        
+        // Check if the category is found in the DB
+        // If Yes, set it as a new product category
+        // If No, then save it as a new category
+        // The set as the new product category
+        
+        Optional<Category> category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()));
+                .orElseGet(()-> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+        request.setCategory(category);   
+        return productRepository.save(createProduct(request, category));
+    }
+
+
+    private Product createProduct(AddProductRequest request, Category category){
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
     }
 
     @Override
@@ -41,44 +72,42 @@ public class ProductService implements IProductService{
     @Override
     public List<Product> getAllProducts() {
         
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
-    public List<Product> getProductsByCategory(Long category) {
+    public List<Product> getProductsByCategory(String category) {
        
-        return List.of();
+        return productRepository.findByCategoryName(category);
     }
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
         
-        return List.of();
+        return productRepository.findByBrand(brand);
     }
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
         
-        return List.of();
+        return productRepository.findByCategoryAndBrand(category,brand);
     }
 
     @Override
     public List<Product> getProductsByName(String name) {
         
-        return List.of();
+        return productRepository.findByName(name);
     }
 
     @Override
-    public List<Product> getProductsByBrandAndName(String category, String name) {
+    public List<Product> getProductsByBrandAndName(String brand, String name) {
        
-        return List.of();
+        return productRepository.findByBrandAndName(brand, name);
     }
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'countProductsByBrandAndName'");
+        
+        return productRepository.countProductsByBrandAndName(brand,name);
     }
-
-    
 }
