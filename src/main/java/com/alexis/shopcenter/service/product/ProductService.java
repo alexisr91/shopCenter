@@ -2,9 +2,10 @@ package com.alexis.shopcenter.service.product;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+
+import com.alexis.shopcenter.exceptions.ProductNotFoundException;
 import com.alexis.shopcenter.model.Product;
 import lombok.RequiredArgsConstructor;
-import java.util.Optional;
 
 
 @Service
@@ -28,6 +29,8 @@ public class ProductService implements IProductService{
     @Override
     public void deleteProductById(Long id) {
         
+        productRepository.findById(id).ifPresentOrElse(product->productRepository.deleteProductById(product), 
+        ()->{throw new ProductNotFoundException("Product Not found !");});
     }
 
     @Override
