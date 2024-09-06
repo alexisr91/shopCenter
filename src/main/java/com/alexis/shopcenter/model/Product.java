@@ -2,6 +2,8 @@ package com.alexis.shopcenter.model;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +35,7 @@ public class Product {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="category_id")
-    private Category category;
+    private Optional<Category> category;
 
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Image> images;
@@ -43,7 +45,7 @@ public class Product {
     // Association d'objet avec image
 
 
-    public Product(String name, String brand, BigDecimal price, int inventory, String description,Category category){
+    public Product(String name, String brand, BigDecimal price, int inventory, String description,Optional<Category> category){
         this.name = name;
         this.brand = brand;
         this.price = price;
@@ -51,5 +53,4 @@ public class Product {
         this.description = description;
         this.category = category;
     }
-
 }

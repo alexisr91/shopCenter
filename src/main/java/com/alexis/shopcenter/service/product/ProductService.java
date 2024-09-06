@@ -9,6 +9,7 @@ import com.alexis.shopcenter.exceptions.ProductNotFoundException;
 import com.alexis.shopcenter.model.Category;
 import com.alexis.shopcenter.model.Product;
 import com.alexis.shopcenter.repository.CategoryRepository;
+import com.alexis.shopcenter.repository.ProductRepository;
 import com.alexis.shopcenter.request.AddProductRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class ProductService implements IProductService{
     }
 
 
-    private Product createProduct(AddProductRequest request, Category category){
+    private Product createProduct(AddProductRequest request, Optional<Category> category){
         return new Product(
                 request.getName(),
                 request.getBrand(),

@@ -21,7 +21,7 @@ public class AddProductRequest {
 
     private Category category;
 
-    public void setCategory(Optional<Category> category2) {
+    public void setCategory(Optional<Category> category) {
     }
 
 }
