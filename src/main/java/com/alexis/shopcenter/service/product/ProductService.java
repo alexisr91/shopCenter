@@ -2,9 +2,7 @@ package com.alexis.shopcenter.service.product;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import com.alexis.shopcenter.exceptions.ProductNotFoundException;
 import com.alexis.shopcenter.model.Category;
 import com.alexis.shopcenter.model.Product;
